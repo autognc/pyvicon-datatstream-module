@@ -28,7 +28,7 @@ def get_xyz_position_orientation(tracker_inst, obj_name):
     latency, frameno, position = tracker_inst.get_position(obj_name)
     if position != []:
         xyz_position = position[0][2:5] # get x,y,z only
-        orientation = position[0][7] # get rotation around z axis
+        orientation = position[0][5:9] # get quaternion output
         return xyz_position, orientation
     return []
 
@@ -57,12 +57,12 @@ def round_list(list, digits):
 
 
 
-VICON_IP = "10.0.108.3"
-OBJECT_NAME = "Imetron_oc"
+VICON_IP = "192.168.1.100"
+OBJECT_NAME = "soho"
 
 # Intialize
 print("Connecting to Vicon Tracker…")
-vicontracker = tools.ObjectTracker(VICON_IP)
+vicontracker = tools.ObjectTrackerQUATERNION(VICON_IP)
 
 # Get initial start position by collecting a number of frames and calculate median
 static_start_position = get_static_position(vicontracker, OBJECT_NAME, 50)
@@ -77,5 +77,6 @@ while True:
     xyz_position, orientation = get_xyz_position_orientation(vicontracker, OBJECT_NAME)
     distance_from_startpoint = get_3d_dist_between_points(static_start_position, xyz_position)
 
-    print(f"XYZ: {round_list(xyz_position, 0)} Orientation Rad/Deg.: {orientation:.4f}/{math.degrees(orientation):.4f}, Distance from start: {distance_from_startpoint:.0f} mm     ", end="\r")
+    print(f"Quaternion.: {orientation[0], orientation[1], orientation[2], orientation[3]}")
+    #print(f"XYZ: {round_list(xyz_position, 0)} Quaternion.: {orientation[0], orientation[1], orientation[2], orientation[3]:.4f}, Distance from start: {distance_from_startpoint:.0f} mm     ", end="\r")
     time.sleep(0.1)
