@@ -8,7 +8,7 @@ OBJECT_NAME = "My_Object"
 
 mytracker = tools.ObjectTracker(VICON_TRACKER_IP)
 while(True):
-    position = mytracker.get_position(OBJECT_NAME)
+    position = mytracker.get_pose(OBJECT_NAME)
 
     print(f"Position: {position}")
 

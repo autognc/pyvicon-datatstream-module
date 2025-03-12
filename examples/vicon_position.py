@@ -18,14 +18,14 @@ def get_3d_dist_between_points(pos1, pos2):
     return dist_3D
 
 def get_xyz_position(tracker_inst, obj_name):
-    latency, frameno, position = tracker_inst.get_position(obj_name)
+    latency, frameno, position = tracker_inst.get_pose(obj_name)
     if position != []:
         xyz_position = position[0][2:5] # get x,y,z only
         return xyz_position
     return []
 
 def get_xyz_position_orientation(tracker_inst, obj_name):
-    latency, frameno, position = tracker_inst.get_position(obj_name)
+    latency, frameno, position = tracker_inst.get_pose(obj_name)
     if position != []:
         xyz_position = position[0][2:5] # get x,y,z only
         orientation = position[0][5:9] # get quaternion output
